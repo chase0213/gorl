@@ -40,7 +40,7 @@ func (b *OptimisticInitialValue) Update(x float64) {
 	b.mean = (1-1.0/n)*b.mean + 1.0/n*x
 }
 
-// RunOptimisticInitialValue solves multi-armed bandit problem using epsilon greedy algorithm
+// RunOptimisticInitialValue solves multi-armed bandit problem using optimistic initial value algorithm
 // ms is initial means for each bandit,
 // eps is a threshold to use random or current bandit mean,
 // N is the number of trial
