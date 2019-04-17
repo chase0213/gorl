@@ -3,12 +3,13 @@ package bandit
 // Bandit is an interface of multi-armed bandit problem
 type Bandit interface {
 	N() int
-	M() float64
 	Mean() float64
 
 	Pull() float64
 	Update(x float64)
 }
+
+type PullFunc func() float64
 
 func ArgMaxMean(bandits []Bandit) int {
 	if len(bandits) == 0 {
