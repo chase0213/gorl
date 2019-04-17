@@ -23,15 +23,15 @@ func main() {
 	N := 10000
 
 	fmt.Printf("\n=== Epsilon Greedy Algorithm ===\n")
-	egbs, _ := bandit.RunEpsilonGreedy(ms, eps, N)
-	for i, b := range egbs {
-		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], b.Mean())
+	banditEpsilonGreedy := bandit.RunExperimentEpsilonGreedy(ms, eps, N)
+	for i, a := range banditEpsilonGreedy.Arms() {
+		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], a.Mean())
 	}
 
 	fmt.Printf("\n=== Optimistic Initial Value Algorithm ===\n")
-	oivbs, _ := bandit.RunOptimisticInitialValue(ms, upperLimit, N)
-	for i, b := range oivbs {
-		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], b.Mean())
+	banditOptimisticInitialValue := bandit.RunExperimentOptimisticInitialValue(ms, upperLimit, N)
+	for i, a := range banditOptimisticInitialValue.Arms() {
+		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], a.Mean())
 	}
 
 }

@@ -8,61 +8,34 @@ func generateNormalPullFunc(m float64) func() float64 {
 	}
 }
 
-// RunEpsilonGreedy solves multi-armed bandit problem using epsilon greedy algorithm
+// RunExperimentEpsilonGreedy solves multi-armed bandit problem using epsilon greedy algorithm
 // ms is initial means for each bandit,
 // eps is a threshold to use random or current bandit mean,
 // N is the number of trial
-func RunEpsilonGreedy(ms []float64, eps float64, N int) ([]Bandit, []float64) {
-	bandits := make([]Bandit, len(ms))
-	for i, m := range ms {
+func RunExperimentEpsilonGreedy(ms []float64, eps float64, N int) Bandit {
+	epsilonGreedy := NewEpsilonGreedy(eps)
+	for _, m := range ms {
 		pullFunc := generateNormalPullFunc(m)
-		bandits[i] = NewEpsilonGreedy(pullFunc)
+		arm := epsilonGreedy.NewArm(pullFunc)
+		epsilonGreedy.AddArm(arm)
 	}
+	epsilonGreedy.Fit(N)
 
-	data := make([]float64, N)
-
-	var j int
-	for i := 0; i < N; i++ {
-		p := rand.NormFloat64()
-		if p < eps {
-			// サイコロの目が eps より小さければ、無作為に選ぶ
-			j = rand.Int() % len(ms)
-		} else {
-			// サイコロの目が eps より大きければ、Bandit の中から一番大きいものを選ぶ
-			j = ArgMaxMean(bandits)
-		}
-
-		x := bandits[j].Pull()
-		bandits[j].Update(x)
-
-		// データプロット用
-		data[i] = x
-	}
-
-	return bandits, data
+	return epsilonGreedy
 }
 
-// RunOptimisticInitialValue solves multi-armed bandit problem using optimistic initial value algorithm
+// RunExperimentOptimisticInitialValue solves multi-armed bandit problem using optimistic initial value algorithm
 // ms is initial means for each bandit,
 // eps is a threshold to use random or current bandit mean,
 // N is the number of trial
-func RunOptimisticInitialValue(ms []float64, upperLimit float64, N int) ([]Bandit, []float64) {
-	bandits := make([]Bandit, len(ms))
-	for i, m := range ms {
+func RunExperimentOptimisticInitialValue(ms []float64, upperLimit float64, N int) Bandit {
+	optimisticInitialValue := NewOptimisticInitialValue(upperLimit)
+	for _, m := range ms {
 		pullFunc := generateNormalPullFunc(m)
-		bandits[i] = NewOptimisticInitialValue(pullFunc, upperLimit)
+		arm := optimisticInitialValue.NewArm(pullFunc)
+		optimisticInitialValue.AddArm(arm)
 	}
+	optimisticInitialValue.Fit(N)
 
-	data := make([]float64, N)
-
-	for i := 0; i < N; i++ {
-		j := ArgMaxMean(bandits)
-		x := bandits[j].Pull()
-		bandits[j].Update(x)
-
-		// データプロット用
-		data[i] = x
-	}
-
-	return bandits, data
+	return optimisticInitialValue
 }
