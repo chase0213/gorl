@@ -8,11 +8,14 @@ import (
 func NewUCB1() *UCB1 {
 	return &UCB1{
 		arms: []Arm{},
+		n:    0,
 	}
 }
 
 type UCB1 struct {
 	arms []Arm
+
+	n int
 }
 
 func (b *UCB1) Arms() []Arm {
@@ -27,12 +30,7 @@ func (b *UCB1) Fit(n int) error {
 	delta := 0.01
 
 	for i := 0; i < n; i++ {
-		N := 0.0
 		U := make([]float64, len(b.arms))
-		for k := 0; k < len(b.arms); k++ {
-			Nk := float64(b.arms[k].N())
-			N += Nk
-		}
 
 		for k := 0; k < len(b.arms); k++ {
 			// NOTE:
@@ -40,12 +38,14 @@ func (b *UCB1) Fit(n int) error {
 			Nk := float64(b.arms[k].N()) + delta
 
 			// Upper confidential band
-			U[k] = math.Sqrt(2 * math.Log(N) / Nk)
+			U[k] = math.Sqrt(2 * math.Log(float64(b.n)) / Nk)
 		}
 
 		j := ArgMaxMeanWithPadding(b.arms, U)
 		x := b.arms[j].Pull()
 		b.arms[j].Update(x)
+
+		b.n++
 	}
 
 	return nil
