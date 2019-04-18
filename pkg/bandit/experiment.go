@@ -39,3 +39,19 @@ func RunExperimentOptimisticInitialValue(ms []float64, upperLimit float64, N int
 
 	return optimisticInitialValue
 }
+
+// RunExperimentUCB1 solves multi-armed bandit problem using optimistic initial value algorithm
+// ms is initial means for each bandit,
+// eps is a threshold to use random or current bandit mean,
+// N is the number of trial
+func RunExperimentUCB1(ms []float64, N int) Bandit {
+	ucb1 := NewUCB1()
+	for _, m := range ms {
+		pullFunc := generateNormalPullFunc(m)
+		arm := ucb1.NewArm(pullFunc)
+		ucb1.AddArm(arm)
+	}
+	ucb1.Fit(N)
+
+	return ucb1
+}

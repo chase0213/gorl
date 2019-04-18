@@ -34,4 +34,10 @@ func main() {
 		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], a.Mean())
 	}
 
+	fmt.Printf("\n=== UCB1 Algorithm ===\n")
+	ucb1 := bandit.RunExperimentUCB1(ms, N)
+	for i, a := range ucb1.Arms() {
+		fmt.Printf("True mean of bandit(No. %d) = %f, actual = %f\n", i+1, ms[i], a.Mean())
+	}
+
 }

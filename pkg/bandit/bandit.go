@@ -22,15 +22,20 @@ type Arm interface {
 type PullFunc func() float64
 
 func ArgMaxMean(arms []Arm) int {
+	zeros := make([]float64, len(arms))
+	return ArgMaxMeanWithPadding(arms, zeros)
+}
+
+func ArgMaxMeanWithPadding(arms []Arm, padding []float64) int {
 	if len(arms) == 0 {
 		return -1
 	}
 
 	idx := 0
-	value := arms[idx].Mean()
+	value := arms[idx].Mean() + padding[idx]
 	for i := 1; i < len(arms); i++ {
-		if arms[i].Mean() >= value {
-			value = arms[i].Mean()
+		if arms[i].Mean()+padding[i] >= value {
+			value = arms[i].Mean() + padding[i]
 			idx = i
 		}
 	}
