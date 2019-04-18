@@ -14,12 +14,17 @@ See and run `main.go` to know how to use this package.
 $ go run main.go
 
 === Epsilon Greedy Algorithm ===
-True mean of bandit(No. 1) = 0.100000, actual = 0.140396
-True mean of bandit(No. 2) = 0.200000, actual = 0.187616
-True mean of bandit(No. 3) = 0.300000, actual = 0.297815
+True mean of bandit(No. 1) = 0.100000, actual = 0.112452
+True mean of bandit(No. 2) = 0.200000, actual = 0.221077
+True mean of bandit(No. 3) = 0.300000, actual = 0.308172
 
 === Optimistic Initial Value Algorithm ===
-True mean of bandit(No. 1) = 0.100000, actual = 0.247212
-True mean of bandit(No. 2) = 0.200000, actual = 0.258311
-True mean of bandit(No. 3) = 0.300000, actual = 0.300267
+True mean of bandit(No. 1) = 0.100000, actual = 0.287140
+True mean of bandit(No. 2) = 0.200000, actual = 0.281862
+True mean of bandit(No. 3) = 0.300000, actual = 0.295689
+
+=== UCB1 Algorithm ===
+True mean of bandit(No. 1) = 0.100000, actual = 0.067241
+True mean of bandit(No. 2) = 0.200000, actual = 0.152241
+True mean of bandit(No. 3) = 0.300000, actual = 0.292240
 ```
