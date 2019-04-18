@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"math/rand"
 
-	"github.com/chase0213/reinforcement-learning-go/pkg/bandit"
+	"github.com/chase0213/gorl/pkg/bandit"
 )
 
 func main() {
